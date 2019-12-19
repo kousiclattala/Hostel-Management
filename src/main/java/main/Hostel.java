@@ -32,7 +32,8 @@ public class Hostel{
 	   }
 	   public static boolean readData(String name) {
 		   try{
-	             BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
+	             @SuppressWarnings("resource")
+				BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
 	               String line = null;
 	            
 	               //write your code here !!!
@@ -41,28 +42,33 @@ public class Hostel{
 		               String checkName = splited[0];
 		               //write your code here !!!
 //		               compare check name with name and return true if present and false if not
-	               }
-	               
-	               
+		               if(checkName.equals(name))
+		               {
+		            	   return true;
+		               }
+		               }       
 	            }catch(Exception e){
 	                System.out.println(e);
 	            }
 			return true;
 	   }
-       public static void allotHostel(){
+       public static void allotHostel() throws IOException
+       {
     	   //write your code here!!!
-    	   
+    	   writedata();
        }
 
        public static boolean verifyStudent(int regNo){
          try{
-             BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
+             @SuppressWarnings("resource")
+			BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
                String line = null;
             while ((line = br.readLine()) != null) {
                 String[] splited = line.split("\\s+");
-
+                
                 String reg = Integer.toString(regNo);
-                    if(splited[1].equals(reg) ){
+                    if(splited[1].equals(reg) )
+                    {
                         return false;
                     }
                 }
@@ -73,16 +79,32 @@ public class Hostel{
         }
            
        public static boolean verifyName(String name){
-    	   boolean chk = true;
     	   
     	   //write your code here
-    	   
-    	   return chk;
-        }
+    	   try
+    	   {
+    		   @SuppressWarnings("resource")
+			BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
+    		   String line = null;
+    		   while((line = br.readLine())!= null)
+    		   {
+    			   String[] splited = line.split("\\s+");
+    			   
+    			   if(splited[0].equals(name))
+    			   {
+    				   return true;
+    			   }
+    		   }
+    		   }catch(Exception e) {
+    			   System.out.println(e);
+    		   }
+    	   return false;
+       }
         
 
 		static String typeName(){
-            Scanner sc = new Scanner(System.in);
+            @SuppressWarnings("resource")
+			Scanner sc = new Scanner(System.in);
             String name;
             System.out.println("Enter the student name:(Type exit to exit) ");
             name = sc.nextLine();
@@ -95,7 +117,8 @@ public class Hostel{
 
 
         BufferedWriter out = null;
-        Scanner sc = new Scanner(System.in);
+        @SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
         System.out.println("Hostel Management \n Enter the record of students! \n Type exit to end!");
         String name  = typeName();
         
@@ -108,8 +131,9 @@ public class Hostel{
             //verify Register number using a function verifyStudent
             boolean checkStu = verifyStudent(regNo);
             boolean checkName = verifyName(name);
-
+           
             if(!(checkStu && checkName)){
+            	
                 System.out.println("User already alloted Hostel!!");
                 name = typeName();
                 continue;
